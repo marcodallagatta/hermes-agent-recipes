@@ -1,6 +1,6 @@
 ---
 name: tailscale-exit-node-browser-egress
-description: "Guide setup of a Tailscale exit node and browser egress."
+description: "Set up or use a Tailscale exit node for browser egress."
 version: 0.1.0
 author: Marco (mae), Hermes Agent
 license: MIT
