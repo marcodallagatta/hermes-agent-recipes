@@ -1,0 +1,9 @@
+# Python test/runtime artifacts
+**/__pycache__/
+*.py[cod]
+
+# Recipient-specific recipe configuration and state
+.env
+**/config.json
+**/state.json
+**/processed.json

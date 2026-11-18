@@ -28,6 +28,7 @@ A recipe should tell the reader:
 - Publish recipes, not raw exports of a personal `~/.hermes/cron/jobs.json`. Live entries can contain account-specific prompts, private delivery targets, local paths, job IDs, or assumptions from memory.
 - Replace personal names, locations, project details, IDs, home paths, ports, and service names with meaningful placeholders and explain where the reader supplies their own values.
 - Never include API keys, tokens, OAuth material, browser state, session data, cron history, or private source data.
+- Give jobs plain, descriptive titles. Do not carry over a local owner's execution-mode tags such as `[S]`, `[SA]`, `[AS]`, or `[A]` unless the recipe explicitly teaches a user-defined convention.
 - Make external calls and write effects explicit. Mark recipes that send messages, modify files, create tickets, or spend money; require the user to review and intentionally enable those effects.
 - Prefer silent behavior when there is nothing to report; document failure and alert behavior.
 - Keep scripts bounded, inspectable, and independently testable. State what was actually tested and on which platform.

@@ -1,0 +1,20 @@
+{
+  "timezone": "REPLACE_WITH_IANA_TIMEZONE",
+  "sources": [
+    "Nous Portal",
+    "Vercel AI Gateway",
+    "OpenRouter",
+    "OpenCode Zen"
+  ],
+  "gate": {
+    "model": "REPLACE_WITH_ARTIFICIAL_ANALYSIS_MODEL_NAME",
+    "effort": "REPLACE_WITH_TESTED_EFFORT_LEVEL"
+  },
+  "references": [
+    {
+      "label": "Reference model",
+      "model": "REPLACE_WITH_ARTIFICIAL_ANALYSIS_MODEL_NAME",
+      "effort": "REPLACE_WITH_TESTED_EFFORT_LEVEL"
+    }
+  ]
+}

@@ -34,6 +34,13 @@ Community skills are security-scanned when installed. Review the skill and its r
 
 Cron recipes are meant to be reviewed and configured by each user. Do not import a personal `jobs.json` entry blindly: adapt the prompt, schedule, timezone, required skills/tools, script paths, and delivery target to your own setup. See [`cron-recipes/README.md`](cron-recipes/README.md) for the recipe format and safety expectations.
 
+### Draft recipes
+
+- [Free model catalog and benchmark watch](cron-recipes/free-model-watch/README.md) — configurable provider-catalog watch with a user-chosen Artificial Analysis score gate.
+- [Granola meeting action candidates](cron-recipes/granola-action-candidates/README.md) — notes-only, cited action candidates with a recipient-owned processing ledger.
+
+These are setup bundles, not live jobs; review and configure them before creating a cron.
+
 ## License
 
 MIT. See [LICENSE](LICENSE). Individual entries may specify additional attribution or licensing requirements in their own documentation.
