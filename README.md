@@ -26,6 +26,10 @@ hermes skills install marcodallagatta/hermes-agent-recipes/tailscale-exit-node-b
 
 Community skills are security-scanned when installed. Review the skill and its requested capabilities before accepting it.
 
+### Available skill
+
+[`tailscale-exit-node-browser-egress`](skills/tailscale-exit-node-browser-egress/SKILL.md) covers choosing and preparing an exit-node device, routing a dedicated browser through an isolated loopback SOCKS proxy, checking egress safely, and tearing down. It does not bypass CAPTCHAs or route provider-side page fetching. See the [standalone guide](guides/route-browser-through-tailscale-exit-node.md) for the full walkthrough.
+
 ## Cron recipes
 
 Cron recipes are meant to be reviewed and configured by each user. Do not import a personal `jobs.json` entry blindly: adapt the prompt, schedule, timezone, required skills/tools, script paths, and delivery target to your own setup. See [`cron-recipes/README.md`](cron-recipes/README.md) for the recipe format and safety expectations.
