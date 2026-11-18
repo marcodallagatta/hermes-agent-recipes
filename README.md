@@ -32,14 +32,49 @@ Community skills are security-scanned when installed. Review the skill and its r
 
 ## Cron recipes
 
-Cron recipes are meant to be reviewed and configured by each user. Do not import a personal `jobs.json` entry blindly: adapt the prompt, schedule, timezone, required skills/tools, script paths, and delivery target to your own setup. See [`cron-recipes/README.md`](cron-recipes/README.md) for the recipe format and safety expectations.
+Cron recipes are opt-in setup bundles, not live jobs. Hermes does not install or schedule them from a repo copy; each reader creates their own job after review. Do not import a personal `jobs.json` entry blindly: adapt the prompt, schedule, timezone, required skills/tools, script paths, and delivery target to your own setup. See [`cron-recipes/README.md`](cron-recipes/README.md) for the recipe format and safety expectations.
 
-### Available recipes
+Use plain job names without private execution-mode tags such as `[SA]`. The placeholders below are yours to replace; no schedule, destination, account, or timezone is supplied by this repo.
 
-- [Free model catalog and benchmark watch](cron-recipes/free-model-watch/README.md) — configurable provider-catalog watch with a user-chosen Artificial Analysis score gate.
-- [Granola meeting action candidates](cron-recipes/granola-action-candidates/README.md) — notes-only, cited action candidates with a recipient-owned processing ledger.
+### Install the free model catalog and benchmark watch
 
-These are setup bundles, not live jobs; review and configure them before creating a cron.
+1. Copy `cron-recipes/free-model-watch/scripts/free_model_watch.py` into the active profile's scripts directory (`$HERMES_HOME/scripts/`; for the default profile when `HERMES_HOME` is unset, this is `~/.hermes/scripts/`).
+2. Copy `config.example.json` to `<active HERMES_HOME>/cron/free-model-watch/config.json` and replace every placeholder with an exact Artificial Analysis model name and tested effort level. Choose your sources and timezone.
+3. Put your own `ARTIFICIAL_ANALYSIS_API_KEY` in the active profile's `.env` (see `.env.example`); never commit it.
+4. Create the job paused so it cannot fire on its schedule yet:
+
+   ```bash
+   hermes cron create "<your cron schedule>" "$(cat /path/to/hermes-agent-recipes/cron-recipes/free-model-watch/prompt.md)" \
+     --name "Free model catalog and benchmark watch" \
+     --script free_model_watch.py \
+     --deliver "<your-delivery-target>" \
+     --timezone "<your-iana-timezone>" \
+     --reasoning-effort low \
+     --paused --paused-reason "Review configuration before enabling"
+   ```
+
+   The CLI does not expose per-job toolsets; in the Cron UI, allow `web` for unbenchmarked-source research and `no_mcp` to exclude unrelated MCP servers.
+
+5. Run one manual canary with `hermes cron run <job-id>` to seed the baseline. The first run should be silent. Because an operator-triggered run may resume a paused job, immediately check `hermes cron list` and pause it again if needed. Verify the config, state file, prompt and tool scope; resume only after review.
+
+### Install the Granola meeting action candidates recipe
+
+1. Connect your own Granola account and confirm the exact read-only list/query tool names in your profile.
+2. Copy `cron-recipes/granola-action-candidates/ledger.example.json` to a private path under the active profile, such as `<active HERMES_HOME>/cron/granola-action-candidates/ledger.json`.
+3. Replace every `{{...}}` placeholder in `prompt.md` with your tool names, connection, owner name, lookback, timezone, and ledger path.
+4. Create the job paused, with the prompt file and your own schedule/destination:
+
+   ```bash
+   hermes cron create "<your cron schedule>" "$(cat /path/to/hermes-agent-recipes/cron-recipes/granola-action-candidates/prompt.md)" \
+     --name "Granola meeting action candidates" \
+     --deliver "<your-delivery-target>" \
+     --timezone "<your-iana-timezone>" \
+     --paused --paused-reason "Review connector and ledger before enabling"
+   ```
+
+5. Configure the paused job to expose only the Granola read-only list/query tools and local file access; do not attach Linear, email-send, or other write tools. Run one manual canary with `hermes cron run <job-id>` to seed the ledger silently. Because an operator-triggered run may resume a paused job, immediately check `hermes cron list` and pause it again if needed. Inspect the ledger and run result, then resume only after the setup is correct.
+
+Both recipes suppress quiet runs. Review `hermes cron list` and one manual run before enabling delivery.
 
 ## License
 
