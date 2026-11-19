@@ -38,24 +38,26 @@ Use plain job names without private execution-mode tags such as `[SA]`. The plac
 
 ### Install the free model catalog and benchmark watch
 
-1. Copy `cron-recipes/free-model-watch/scripts/free_model_watch.py` into the active profile's scripts directory (`$HERMES_HOME/scripts/`; for the default profile when `HERMES_HOME` is unset, this is `~/.hermes/scripts/`).
-2. Copy `config.example.json` to `<active HERMES_HOME>/cron/free-model-watch/config.json` and replace every placeholder with an exact Artificial Analysis model name and tested effort level. Choose your sources and timezone.
+1. Copy `cron-recipes/free-model-watch/scripts/free_model_watch.py` to the active profile's scripts directory under the distinct name `$HERMES_HOME/scripts/free_model_watch_recipe.py` (for the default profile when `HERMES_HOME` is unset, use `~/.hermes/scripts/free_model_watch_recipe.py`).
+2. Copy `config.example.json` to `<active HERMES_HOME>/cron/free-model-watch-recipe/config.json` and replace each placeholder with an exact Artificial Analysis model name and tested effort level. Choose your sources and timezone. Add only your own optional promotion entries; the example contains none.
 3. Put your own `ARTIFICIAL_ANALYSIS_API_KEY` in the active profile's `.env` (see `.env.example`); never commit it.
 4. Create the job paused so it cannot fire on its schedule yet:
 
    ```bash
    hermes cron create "<your cron schedule>" "$(cat /path/to/hermes-agent-recipes/cron-recipes/free-model-watch/prompt.md)" \
      --name "Free model catalog and benchmark watch" \
-     --script free_model_watch.py \
+     --script free_model_watch_recipe.py \
      --deliver "<your-delivery-target>" \
      --timezone "<your-iana-timezone>" \
      --reasoning-effort low \
      --paused --paused-reason "Review configuration before enabling"
    ```
 
-   The CLI does not expose per-job toolsets; in the Cron UI, allow `web` for unbenchmarked-source research and `no_mcp` to exclude unrelated MCP servers.
+   The watch reports direct AA scores and AA-backed proxy scores only; routes without either are omitted. It does not do outside benchmark research. When Pillow is installed in the cron's Python environment, score-change and expiry reports can attach a PNG chart; if Pillow is missing or rendering fails, the text report still works. The CLI does not expose per-job toolsets; in the Cron UI, enable only `no_mcp` and leave web off.
 
-5. Run one manual canary with `hermes cron run <job-id>` to seed the baseline. The first run should be silent. Because an operator-triggered run may resume a paused job, immediately check `hermes cron list` and pause it again if needed. Verify the config, state file, prompt and tool scope; resume only after review.
+5. If you want to reply with a model list, enable `attach_to_session: true` for this job in the Cron UI or supported cron manager. Use only a one-to-one private chat tied to the account that owns the model settings, and first verify the active bot/profile's inbound allowlist admits only that account with no pending pairings, wildcard, or shared grants; the recipe script cannot authenticate senders itself. Do not enable model-list changes in groups or shared threads. If you cannot verify that owner-only boundary, leave `attach_to_session` off. The continued chat must have terminal access. Send exact `provider | model-id` pairs, one per line; first is primary, the rest are ordered fallbacks. The prompt asks rather than guesses when a route is ambiguous, then reads the chain back and runs `hermes fallback check` without `--live`. `hermes cron edit --continuity` is not reply continuity.
+
+6. Run one manual canary with `hermes cron run <job-id>` to seed the baseline. The first run is intentionally silent unless a configured promotion is due. Because an operator-triggered run may resume a paused job, immediately check `hermes cron list` and pause it again if needed. Verify the config, state file, prompt and tool scope; resume only after review.
 
 ### Install the Granola meeting action candidates recipe
 

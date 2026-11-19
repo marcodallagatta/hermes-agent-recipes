@@ -16,5 +16,6 @@
       "model": "REPLACE_WITH_ARTIFICIAL_ANALYSIS_MODEL_NAME",
       "effort": "REPLACE_WITH_TESTED_EFFORT_LEVEL"
     }
-  ]
+  ],
+  "promotions": []
 }

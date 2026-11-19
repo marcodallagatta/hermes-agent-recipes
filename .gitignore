@@ -7,3 +7,19 @@
 **/config.json
 **/state.json
 **/processed.json
+**/aa_cache.json
+**/scores*.png
+**/.watch-*
+
+# Profile credentials and cron records
+**/auth.json
+**/credentials.json
+**/secrets.json
+**/jobs.json
+
+# Local databases and backups
+**/*.db
+**/*.sqlite
+**/*.sqlite3
+**/*.bak
+**/*.backup
